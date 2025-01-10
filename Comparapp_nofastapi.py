@@ -122,4 +122,4 @@ def main(page: ft.Page):
 
     auto_update()
 # Inicializa o aplicativo
-ft.app(target=main)
+ft.app(target=main, view=ft.WEB_BROWSER)

@@ -1,10 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "Comparapp_nofastapi.py",
-      "use": "@vercel/python"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
