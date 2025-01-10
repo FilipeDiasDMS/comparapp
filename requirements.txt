@@ -4,3 +4,4 @@ packaging==24.2
 pyinstaller==6.11.1
 pyinstaller-hooks-contrib==2024.11
 setuptools==75.8.0
+flet==0.25.2
