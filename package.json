@@ -1,0 +1,13 @@
+{
+  "name": "comparador-precos",
+  "version": "1.0.0",
+  "description": "Projeto para comparar preços com Flask e Flet",
+  "main": "index.js",
+  "scripts": {
+    "start": "comparapp_flask.py"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
