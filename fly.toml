@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for comparapp-damp-pine-8816 on 2025-01-11T13:21:02-03:00
+# fly.toml app configuration file generated for comparapp-hidden-sound-753 on 2025-01-11T14:15:47-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'comparapp-damp-pine-8816'
+app = 'comparapp-hidden-sound-753'
 primary_region = 'gig'
 
 [build]

@@ -1,5 +1,17 @@
 import flet as ft
 import time
+import threading
+import http.server
+import socketserver
+
+# Função para rodar o servidor HTTP
+def run_http_server():
+    PORT = 8080
+
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("0.0.0.0", PORT), handler) as httpd:
+        print(f"Servidor HTTP rodando na porta {PORT}...")
+        httpd.serve_forever()
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
@@ -121,5 +133,10 @@ def main(page: ft.Page):
             time.sleep(0.5)
 
     auto_update()
+
+# Iniciar o servidor HTTP em uma thread separada
+http_server_thread = threading.Thread(target=run_http_server, daemon=True)
+http_server_thread.start()
+
 # Inicializa o aplicativo
 ft.app(target=main, view=ft.WEB_BROWSER)
