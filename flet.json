@@ -2,6 +2,6 @@
   "app_name": "comparapp",
   "app_id": "comparapp",
   "description": "Um comparador de preços simples desenvolvido com Flet.",
-  "main": "Comparapp.py",
+  "main": "comparapp.py",
   "build_folder": "deploy",
 }

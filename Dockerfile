@@ -1,5 +1,5 @@
 # Use uma imagem base do Python
-FROM python:3.9-slim
+FROM python:3
 
 # Defina o diretório de trabalho no container
 WORKDIR /app
@@ -13,5 +13,5 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Comando para iniciar a aplicação
-CMD ["python", "Comparapp.py"]  # Altere "Comparapp.py" pelo nome do seu arquivo principal
+CMD ["python", "comparapp.py"]  # Altere "Comparapp.py" pelo nome do seu arquivo principal
 
