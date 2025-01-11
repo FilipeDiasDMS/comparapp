@@ -13,5 +13,5 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Comando para iniciar a aplicação
-CMD ["python", "Comparapp_nofastapi.py"]  # Altere "Comparapp.py" pelo nome do seu arquivo principal
+CMD ["python", "Comparapp.py"]  # Altere "Comparapp.py" pelo nome do seu arquivo principal
 

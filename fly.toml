@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = '<comparapp_nofastapi>'
+app = '<comparapp>'
 primary_region = 'gig'
 kill_signal = 'SIGINT'
 kill_timeout = '5s'

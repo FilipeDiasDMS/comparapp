@@ -1,7 +1,7 @@
 {
-  "app_name": "Comparapp_nofastapi",
-  "app_id": "comparapp_nofastapi",
+  "app_name": "comparapp",
+  "app_id": "comparapp",
   "description": "Um comparador de preços simples desenvolvido com Flet.",
-  "main": "Comparapp_nofastapi.py",
+  "main": "Comparapp.py",
   "build_folder": "deploy",
 }
