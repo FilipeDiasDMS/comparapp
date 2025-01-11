@@ -6,4 +6,5 @@ pyinstaller-hooks-contrib==2024.11
 setuptools==75.8.0
 flet==0.25.2
 flask==3.1.0
+python==3.9
 werkzeug==3.1.3

@@ -1,0 +1,44 @@
+# fly.toml app configuration file generated for comparapp on 2025-01-10T07:51:04-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = '<comparapp_nofastapi>'
+primary_region = 'gig'
+kill_signal = 'SIGINT'
+kill_timeout = '5s'
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  FLET_SESSION_TIMEOUT = '60'
+
+[[services]]
+  http_checks = []
+  internal_port = 8000
+  processes = ["app"]
+
+  [services.ports]
+    http = 80
+    https = 443
+    internal = 8000
+    start_port = 8000
+    end_port = 8000
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = 'connections'
+    hard_limit = 250
+    soft_limit = 200
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
