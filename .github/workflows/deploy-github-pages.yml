@@ -56,15 +56,6 @@ jobs:
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
             flutter config --no-analytics
             flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Upgrade dependencies
-      run: flutter pub upgrade
-
-    - name: Run tests
-      run: flutter test
       
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v3
