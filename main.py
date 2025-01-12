@@ -139,4 +139,4 @@ flask_thread = threading.Thread(target=run_flask)
 flask_thread.start()
 
 # Inicializa o Flet
-ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main)
