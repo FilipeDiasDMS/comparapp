@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 # Função para rodar o servidor Flask em uma thread separada
 def run_flask():
-    port = int(os.environ.get('PORT', 5000))  # Use a porta definida pela variável de ambiente ou 5000 como fallback
-    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
+    app.run(port=5001, debug=False, use_reloader=False)
 
 # Função principal Flet
 def main(page: ft.Page):
@@ -140,4 +139,4 @@ flask_thread = threading.Thread(target=run_flask)
 flask_thread.start()
 
 # Inicializa o Flet
-ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main)
