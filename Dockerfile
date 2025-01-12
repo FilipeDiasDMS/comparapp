@@ -7,11 +7,12 @@ WORKDIR /app
 # Copie o arquivo requirements.txt e instale as dependências
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN python3 -m venv /venv
+RUN /venv/bin/pip install -r requirements.txt
 
 # Copie o resto da aplicação
 COPY . .
 
 # Comando para iniciar a aplicação
-CMD ["python", "comparapp.py"]  # Altere "Comparapp.py" pelo nome do seu arquivo principal
+CMD ["/venv/bin/python", "comparapp.py"]
 

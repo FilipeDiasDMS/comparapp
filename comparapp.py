@@ -1,18 +1,17 @@
 import flet as ft
 import time
+from flask import Flask, request, jsonify
 import threading
-import http.server
-import socketserver
 
-# Função para rodar o servidor HTTP
-def run_http_server():
-    PORT = 8080
+# Criação do app Flask
+app = Flask(__name__)
 
-    handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("0.0.0.0", PORT), handler) as httpd:
-        print(f"Servidor HTTP rodando na porta {PORT}...")
-        httpd.serve_forever()
+# Função para rodar o servidor Flask em uma thread separada
+def run_flask():
+    port = int(os.environ.get('PORT', 5000))  # Use a porta definida pela variável de ambiente ou 5000 como fallback
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
+# Função principal Flet
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
     page.vertical_alignment = ft.MainAxisAlignment.START
@@ -46,20 +45,24 @@ def main(page: ft.Page):
         margin=ft.Margin (0, 0, 0, 0)
     )
 
-    #image = ft.Image(src='https://drive.google.com/file/d/1kgEPPXIACGnAmzB0JaPRRtl19CtiEnvc/view?usp=sharing', width=300, fit=ft.ImageFit.CONTAIN)
+
+    # Defina os campos, tags e funções de cálculo conforme seu código original...
 
     title = ft.Text(value='COMPARE E PAGUE MENOS', text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
 
     pr_tag1 = ft.Text(value='Preço (R$) do produto 1', text_align=ft.TextAlign.LEFT, width=60, size=12)
-    pr1 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_pr_tag1)
+    pr1 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue',
+                       on_change=handle_input_change_pr_tag1)
 
     ps_tag1 = ft.Text(value='Peso (g) do produto 1', text_align=ft.TextAlign.LEFT, width=60, size=12)
-    ps1 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_ps_tag1)
+    ps1 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue',
+                       on_change=handle_input_change_ps_tag1)
 
     rs_tag1 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
 
     pr_tag2 = ft.Text(value='Preço (R$) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
-    pr2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_pr_tag2)
+    pr2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue',
+                       on_change=handle_input_change_pr_tag2)
 
     ps_tag2 = ft.Text(value='Peso (g) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
     ps2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue')
@@ -69,8 +72,6 @@ def main(page: ft.Page):
     result_1 = ft.Text(value='Resultado 1', size=12)
     result_2 = ft.Text(value='Resultado 2', size=12)
     display_final = ft.Text(value='Resultado Final', size=12)
-
-
 
     def calcular1():
         try:
@@ -99,7 +100,6 @@ def main(page: ft.Page):
             return 0
 
     def compara():
-
         if not pr1.value or not ps1.value or pr1.value == '' or ps1.value == '':
             display_final.value = 'Insira informações válidas'
         elif not pr2.value or not ps2.value or pr2.value =='' or ps2.value == '':
@@ -118,7 +118,6 @@ def main(page: ft.Page):
         display_final.update()  # Atualiza o texto de display_final
 
     def auto_update():
-
         page.add(
             ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
             ft.Row([pr_tag1, pr1, ps_tag1, ps1], alignment=ft.MainAxisAlignment.CENTER),
@@ -134,9 +133,11 @@ def main(page: ft.Page):
 
     auto_update()
 
-# Iniciar o servidor HTTP em uma thread separada
-http_server_thread = threading.Thread(target=run_http_server, daemon=True)
-http_server_thread.start()
+# Criação de endpoints Flask para comunicação
 
-# Inicializa o aplicativo
+# Inicializa o Flask em uma thread separada
+flask_thread = threading.Thread(target=run_flask)
+flask_thread.start()
+
+# Inicializa o Flet
 ft.app(target=main, view=ft.WEB_BROWSER)
