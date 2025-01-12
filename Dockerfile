@@ -14,5 +14,5 @@ RUN /venv/bin/pip install -r requirements.txt
 COPY . .
 
 # Comando para iniciar a aplicação
-CMD ["/venv/bin/python", "comparapp.py"]
+CMD ["/venv/bin/python", "main.py"]
 
