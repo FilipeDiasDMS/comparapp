@@ -56,37 +56,27 @@ def main(page: ft.Page):
     # Componentes da interface
     title = ft.Text(value='COMPARE E PAGUE MENOS', text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
 
-    pr_tag1 = ft.Text(value='Preço (R$) do produto 1', text_align=ft.TextAlign.LEFT, width=60, size=12)
+    pr1 = ft.TextField(label="Preço (R$) do produto 1", on_change=lambda e: compara())
+    ps1 = ft.TextField(label="Peso (g) do produto 1", on_change=lambda e: compara())
+    pr2 = ft.TextField(label="Preço (R$) do produto 2", on_change=lambda e: compara())
+    ps2 = ft.TextField(label="Peso (g) do produto 2", on_change=lambda e: compara())
 
-    ps_tag1 = ft.Text(value='Peso (g) do produto 1', text_align=ft.TextAlign.LEFT, width=60, size=12)
-
-    rs_tag1 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
-
-    pr_tag2 = ft.Text(value='Preço (R$) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
-    pr2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_pr_tag2)
-
-    ps_tag2 = ft.Text(value='Peso (g) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
-
-    pr1 = ft.TextField(label="Preço (R$) do produto 1", text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue' , on_change=lambda e: compara())
-    ps1 = ft.TextField(label="Peso (g) do produto 1", text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue' , on_change=lambda e: compara())
-    pr2 = ft.TextField(label="Preço (R$) do produto 2", text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue' , on_change=lambda e: compara())
-    ps2 = ft.TextField(label="Peso (g) do produto 2", text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=lambda e: compara())
-
-    rs_tag2 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
-
-    result_1 = ft.Text(value='Resultado 1', size=12)
-    result_2 = ft.Text(value='Resultado 2', size=12)
-    display_final = ft.Text(value='Resultado Final', size=12)
+    result_1 = ft.Text(value="Resultado 1: ")
+    result_2 = ft.Text(value="Resultado 2: ")
+    display_final = ft.Text(value="Resultado Final: ")
 
     # Adiciona os componentes à página
     page.add(
-            ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
-            ft.Row([pr_tag1, pr1, ps_tag1, ps1], alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([pr_tag2, pr2, ps_tag2, ps2],alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([rs_tag1, result_1, rs_tag2, result_2], alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
-        )
+        title,
+        pr1,
+        ps1,
+        pr2,
+        ps2,
+        ft.Divider(),
+        result_1,
+        result_2,
+        display_final,
+    )
 
 
 # Inicializa o aplicativo
