@@ -67,16 +67,13 @@ def main(page: ft.Page):
 
     # Adiciona os componentes à página
     page.add(
-        title,
-        pr1,
-        ps1,
-        pr2,
-        ps2,
-        ft.Divider(),
-        result_1,
-        result_2,
-        display_final,
-    )
+            ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
+            ft.Row([pr_tag1, pr1, ps_tag1, ps1], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([pr_tag2, pr2, ps_tag2, ps2],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([rs_tag1, result_1, rs_tag2, result_2], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
+        )
 
 
 # Inicializa o aplicativo
