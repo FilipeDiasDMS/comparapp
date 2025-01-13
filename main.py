@@ -1,5 +1,5 @@
 import flet as ft
-import time
+import asyncio
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
@@ -11,12 +11,14 @@ def main(page: ft.Page):
         value = e.control.value
         if '.' in value and len(e.control.value.split('.')[-1]) == 2:
             ps1.focus()
+        compara()
 
         page.update()
     def handle_input_change_ps_tag1(e):
         value = e.control.value
         if '.' in value and len(e.control.value.split('.')[-1]) == 2:
             pr2.focus()
+        compara()
 
         page.update()
 
@@ -24,6 +26,10 @@ def main(page: ft.Page):
         value = e.control.value
         if '.' in value and len(e.control.value.split('.')[-1]) == 2:
             ps2.focus()
+        compara()
+
+    def handle_input_change_ps_tag2(e):
+        compara()
 
         page.update()
 
@@ -50,7 +56,7 @@ def main(page: ft.Page):
     pr2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_pr_tag2)
 
     ps_tag2 = ft.Text(value='Peso (g) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
-    ps2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue')
+    ps2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_ps_tag2)
 
     rs_tag2 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
 
@@ -105,7 +111,7 @@ def main(page: ft.Page):
 
         display_final.update()  # Atualiza o texto de display_final
 
-    def auto_update ():
+    def auto_update():
 
         page.add(
             ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
@@ -115,6 +121,7 @@ def main(page: ft.Page):
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
         )
+
     auto_update()
 
 # Inicializa o aplicativo
