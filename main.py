@@ -105,6 +105,8 @@ def main(page: ft.Page):
 
         display_final.update()  # Atualiza o texto de display_final
 
+    def auto_update ():
+
         page.add(
             ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
             ft.Row([pr_tag1, pr1, ps_tag1, ps1], alignment=ft.MainAxisAlignment.CENTER),
@@ -113,6 +115,7 @@ def main(page: ft.Page):
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
         )
+    auto_update()
 
 # Inicializa o aplicativo
 ft.app(target=main)
