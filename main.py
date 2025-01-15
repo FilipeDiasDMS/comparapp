@@ -1,6 +1,4 @@
 import flet as ft
-import asyncio
-import cv2
 import matplotlib.pyplot as plt
 
 def main(page: ft.Page):
