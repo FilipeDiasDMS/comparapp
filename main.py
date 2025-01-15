@@ -1,13 +1,18 @@
 import flet as ft
 import asyncio
+import cv2
+import zxing
+import requests
+import tempfile
+import threading
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.window_min_width = 350
-    page.window_min_height = 350
+    page.window_min_height = 622
     page.window_max_width = 350
-    page.window_max_height = 350
+    page.window_max_height = 622
 
     def handle_input_change_pr_tag1(e):
         value = e.control.value
@@ -52,7 +57,7 @@ def main(page: ft.Page):
     ps_tag1 = ft.Text(value='Peso (g) do produto 1', text_align=ft.TextAlign.LEFT, width=60, size=12)
     ps1 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_ps_tag1)
 
-    rs_tag1 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
+    rs_tag1 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=70, size=12)
 
     pr_tag2 = ft.Text(value='Preço (R$) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
     pr2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_pr_tag2)
@@ -60,7 +65,7 @@ def main(page: ft.Page):
     ps_tag2 = ft.Text(value='Peso (g) do produto 2', text_align=ft.TextAlign.LEFT, width=60, size=12)
     ps2 = ft.TextField(text_align=ft.TextAlign.LEFT, text_size=12, width=80, height=40, bgcolor='light blue', on_change=handle_input_change_ps_tag2)
 
-    rs_tag2 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=80, size=12)
+    rs_tag2 = ft.Text(value='R$/g', text_align=ft.TextAlign.LEFT, width=70, size=12)
 
     result_1 = ft.Text(value='Resultado 1', size=12)
     result_2 = ft.Text(value='Resultado 2', size=12)
@@ -84,7 +89,14 @@ def main(page: ft.Page):
         alignment=ft.alignment.bottom_center,
         padding=10)
 
-    btn_qrcode = ft.ElevatedButton (text='CÓDIGO DE BARRAS', icon=ft.icons.QR_CODE, on_click= lambda e: print('funcionou'))
+    btn_qrcode = ft.ElevatedButton (text='CÓDIGO DE BARRAS', icon=ft.icons.QR_CODE, on_click=lambda _: capture_and_decode())
+
+    row_withbg = ft.Container(
+        content=ft.Row([rs_tag1, result_1, rs_tag2, result_2],
+        alignment=ft.MainAxisAlignment.CENTER),
+        bgcolor = '#bc8d27',
+        padding = 10,
+    )
 
     def calcular1():
         try:
@@ -148,14 +160,14 @@ def main(page: ft.Page):
             ft.Row([title],alignment=ft.MainAxisAlignment.CENTER ),
             ft.Row([pr_tag1, pr1, ps_tag1, ps1], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([pr_tag2, pr2, ps_tag2, ps2],alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([rs_tag1, result_1, rs_tag2, result_2], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([row_withbg], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.CENTER),
         )
 
-    auto_update()
 
-# Inicializa o aplicativo
+
+    auto_update()
 ft.app(target=main)
