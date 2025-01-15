@@ -1,25 +1,4 @@
 import flet as ft
-import matplotlib.pyplot as plt
-
-def create_plot(result_1_value, result_2_value):
-    # Criando o gráfico com os valores de result_1 e result_2
-    fig, ax = plt.subplots()
-    fig.patch.set_facecolor ('none')
-    ax.set_facecolor('none')
-    ax.bar([1, 2], [result_1_value, result_2_value], tick_label=["Produto 1", "Produto 2"], color=['#bc8d27', '#976f17'], )  # Plotando os dois resultados (produto 1 e 2)
-    ax.set_xticks([1, 2])  # Definindo as posições no eixo X
-    ax.set_xticklabels(["Produto 1", "Produto 2"], fontsize=15, color='white')  # Nomeando os pontos do eixo X
-    ax.get_yaxis().set_visible(False)
-    ax.tick_params(axis='y', labelcolor='white')
-
-    for spine in ax.spines.values():
-        spine.set_visible(False)
-
-    # Salvando o gráfico diretamente em um arquivo temporário
-    img_path = "/tmp/plot.png"
-    plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
-
-    return img_path
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
@@ -61,17 +40,6 @@ def main(page: ft.Page):
         bgcolor='#A4A4A4',
         margin=ft.Margin (0, 0, 0, 0)
     )
-
-        def update_plot(result_1_value, result_2_value):
-        img_path = create_plot(result_1_value, result_2_value)
-
-        # Atualizando o caminho da imagem no Flet
-        flet_img.src = img_path
-        flet_img.update()
-
-    global flet_img
-    flet_img = ft.Image(src='empty.png', width=300, height=200)
-
     #image = ft.Image(src='https://drive.google.com/file/d/1kgEPPXIACGnAmzB0JaPRRtl19CtiEnvc/view?usp=sharing', width=300, fit=ft.ImageFit.CONTAIN)
 
     title = ft.Text(value='COMPARE E PAGUE MENOS', text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
