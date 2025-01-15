@@ -133,7 +133,6 @@ def main(page: ft.Page):
                 display_final.value = f'Ambo custam o mesmo'
             else:
                 display_final.value = f'O produto 1 está mais caro'
-            update_plot(resultado1, resultado2)
 
         display_final.update()  # Atualiza o texto de display_final
 
@@ -157,7 +156,6 @@ def main(page: ft.Page):
             ft.Row([row_withbg], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([flet_img], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.CENTER),
         )
