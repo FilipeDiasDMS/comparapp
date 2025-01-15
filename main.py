@@ -1,9 +1,6 @@
 import flet as ft
 import asyncio
 import cv2
-import zxing
-import requests
-import tempfile
 import matplotlib.pyplot as plt
 
 def main(page: ft.Page):
