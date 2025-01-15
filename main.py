@@ -4,7 +4,6 @@ import cv2
 import zxing
 import requests
 import tempfile
-import threading
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
