@@ -82,7 +82,7 @@ def main(page: ft.Page):
         alignment=ft.alignment.bottom_center,
         padding=10)
 
-    btn_qrcode = ft.FloatingActionButton (, icon=ft.icons.QR_CODE, on_click=lambda _: capture_and_decode())
+    btn_qrcode = ft.FloatingActionButton (icon=ft.icons.QR_CODE, on_click=lambda _: capture_and_decode())
 
     row_withbg = ft.Container(
         content=ft.Row([rs_tag1, result_1, rs_tag2, result_2],
