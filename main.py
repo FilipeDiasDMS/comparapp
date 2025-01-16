@@ -17,7 +17,6 @@ def main(page: ft.Page):
         result_2.value = 'Resultado 2'
         display_final.value = 'Resultado Final'
         desconto.value = 'Diferença %'
-        flet_img.src = 'empty.png'
         pr1.update()
         ps1.update()
         pr2.update()
@@ -26,7 +25,6 @@ def main(page: ft.Page):
         result_2.update()
         display_final.update()
         desconto.update()
-        flet_img.update()
     
     def handle_input_change_pr_tag1(e):
         value = e.control.value
