@@ -25,6 +25,7 @@ def create_plot(result_1_value, result_2_value):
     return img_path
 
 def main(page: ft.Page):
+    page.splash = ft.ProgressBar(width=300, height=10, color="blue")
     page.title = 'Comparador de preços'
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.window_min_width = 350
