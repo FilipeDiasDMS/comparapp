@@ -8,6 +8,26 @@ def main(page: ft.Page):
     page.window_max_width = 350
     page.window_max_height = 622
 
+    def reset_all_data(e):
+        pr1.value = ''
+        ps1.value = ''
+        pr2.value = ''
+        ps2.value = ''
+        result_1.value = 'Resultado 1'
+        result_2.value = 'Resultado 2'
+        display_final.value = 'Resultado Final'
+        desconto.value = 'Diferença %'
+        flet_img.src = 'empty.png'
+        pr1.update()
+        ps1.update()
+        pr2.update()
+        ps2.update()
+        result_1.update()
+        result_2.update()
+        display_final.update()
+        desconto.update()
+        flet_img.update()
+    
     def handle_input_change_pr_tag1(e):
         value = e.control.value
         if '.' in value and len(e.control.value.split('.')[-1]) == 2:
@@ -65,6 +85,8 @@ def main(page: ft.Page):
     display_final = ft.Text(value='Resultado Final', size=12)
 
     desconto = ft.Text(value='Diferença %', size=12, width=160, text_align=ft.TextAlign.CENTER)
+
+    btn_reset = ft.ElevatedButton(icon=ft.icons.RESTART_ALT, text="Reiniciar",bgcolor='#bc8d27',color='white', on_click=reset_all_data)
 
     desconto_container = ft.Container(content=desconto,
         width=200,
@@ -156,6 +178,7 @@ def main(page: ft.Page):
             ft.Row([row_withbg], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([btn_reset], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.END),
         )
