@@ -4,9 +4,10 @@ import flet as ft
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
     page.vertical_alignment = ft.MainAxisAlignment.START
-    page.window_width = page.window_width
-    page.window_height = page.window_height
     page.window_min_width = 350
+    page.window_min_height = 622
+    page.window_max_width = 350
+    page.window_max_height = 622
 
     def reset_all_data(e):
         pr1.value = ''
@@ -108,7 +109,7 @@ def main(page: ft.Page):
                                       border_radius=5)
 
     title = ft.Container(content=title,
-                         width=page.window_width,
+                         width=300,
                          height=60,
                          bgcolor='#bc8d27',
                          margin=ft.Margin(0, -20, 0, 10),
@@ -121,7 +122,6 @@ def main(page: ft.Page):
     row_withbg = ft.Container(
         content=ft.Row([rs_tag1, result_1, rs_tag2, result_2],
                        alignment=ft.MainAxisAlignment.CENTER),
-        width=page.window_width,
         bgcolor='#bc8d27',
         padding=10,
     )
