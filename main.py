@@ -58,6 +58,14 @@ def main(page: ft.Page):
         bgcolor='#A4A4A4',
         margin=ft.Margin (0, 0, 0, 0)
     )
+    
+    flet_img = ft.Image(src='empty.png', width=300, height=200)
+
+    plot = ft.Container(
+        content=flet_img,
+        width=302,
+        height=202,
+        margin=ft.Margin (0, 0, 0, 0))
     #image = ft.Image(src='https://drive.google.com/file/d/1kgEPPXIACGnAmzB0JaPRRtl19CtiEnvc/view?usp=sharing', width=300, fit=ft.ImageFit.CONTAIN)
 
     title = ft.Text(value='COMPARE E PAGUE MENOS', text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
@@ -177,6 +185,7 @@ def main(page: ft.Page):
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_reset], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([plot], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.END),
         )
