@@ -1,18 +1,56 @@
 import flet as ft
-import asyncio
-import cv2
-import zxing
-import requests
 import tempfile
-import threading
+import matplotlib.pyplot as plt
+
+plt.switch_backend('Agg')
+
+def create_plot(result_1_value, result_2_value):
+    # Criando o gráfico com os valores de result_1 e result_2
+    fig, ax = plt.subplots()
+    fig.patch.set_facecolor ('none')
+    ax.set_facecolor('none')
+    ax.bar([1, 2], [result_1_value, result_2_value], tick_label=["Produto 1", "Produto 2"], color=['#bc8d27', '#976f17'], )  # Plotando os dois resultados (produto 1 e 2)
+    ax.set_xticks([1, 2])  # Definindo as posições no eixo X
+    ax.set_xticklabels(["Produto 1", "Produto 2"], fontsize=15, color='white')  # Nomeando os pontos do eixo X
+    ax.get_yaxis().set_visible(False)
+    ax.tick_params(axis='y', labelcolor='white')
+
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    # Salvando o gráfico diretamente em um arquivo temporário
+    img_path = "/tmp/plot.png"
+    plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
+
+    return img_path
 
 def main(page: ft.Page):
     page.title = 'Comparador de preços'
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.window_min_width = 350
-    page.window_min_height = 622
+    page.window_min_height = 680
     page.window_max_width = 350
-    page.window_max_height = 622
+    page.window_max_height = 700
+
+    def reset_all_data(e):
+        pr1.value = ''
+        ps1.value = ''
+        pr2.value = ''
+        ps2.value = ''
+        result_1.value = 'Resultado 1'
+        result_2.value = 'Resultado 2'
+        display_final.value = 'Resultado Final'
+        desconto.value = 'Diferença %'
+        flet_img.src = 'empty.png'
+        pr1.update()
+        ps1.update()
+        pr2.update()
+        ps2.update()
+        result_1.update()
+        result_2.update()
+        display_final.update()
+        desconto.update()
+        flet_img.update()
 
     def handle_input_change_pr_tag1(e):
         value = e.control.value
@@ -47,7 +85,23 @@ def main(page: ft.Page):
         margin=ft.Margin (0, 0, 0, 0)
     )
 
-    #image = ft.Image(src='https://drive.google.com/file/d/1kgEPPXIACGnAmzB0JaPRRtl19CtiEnvc/view?usp=sharing', width=300, fit=ft.ImageFit.CONTAIN)
+    def update_plot(result_1_value, result_2_value):
+        img_path = create_plot(result_1_value, result_2_value)
+
+        # Atualizando o caminho da imagem no Flet
+        flet_img.src = img_path
+        flet_img.update()
+
+    global flet_img
+    flet_img = ft.Image(src='empty.png', width=300, height=200)
+
+    plot = ft.Container(
+        content=flet_img,
+        width=302,
+        height=202,
+        margin=ft.Margin(0, 0, 0, 0))
+
+    #btn_plot = ft.ElevatedButton(text="Gerar Gráfico", on_click=lambda _: asyncio.run(update_plot(calcular1(), calcular2())))
 
     title = ft.Text(value='COMPARE E PAGUE MENOS', text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
 
@@ -73,6 +127,8 @@ def main(page: ft.Page):
 
     desconto = ft.Text(value='Diferença %', size=12, width=160, text_align=ft.TextAlign.CENTER)
 
+    btn_reset = ft.ElevatedButton(icon=ft.icons.RESTART_ALT, text="Reiniciar",bgcolor='#bc8d27',color='white', on_click=reset_all_data)
+
     desconto_container = ft.Container(content=desconto,
         width=200,
         height=20,
@@ -89,7 +145,7 @@ def main(page: ft.Page):
         alignment=ft.alignment.bottom_center,
         padding=10)
 
-    btn_qrcode = ft.ElevatedButton (text='CÓDIGO DE BARRAS', icon=ft.icons.QR_CODE, on_click=lambda _: capture_and_decode())
+    btn_qrcode = ft.FloatingActionButton (icon=ft.icons.QR_CODE, on_click=lambda _: capture_and_decode())
 
     row_withbg = ft.Container(
         content=ft.Row([rs_tag1, result_1, rs_tag2, result_2],
@@ -135,11 +191,12 @@ def main(page: ft.Page):
             resultado1 = calcular1()
             resultado2 = calcular2()
             if resultado2 > resultado1:
-                display_final.value = f'O produto 2 está mais caro'
+                display_final.value = f'O produto 1 está mais barato'
             elif resultado2 == resultado1:
                 display_final.value = f'Ambo custam o mesmo'
             else:
-                display_final.value = f'O produto 1 está mais caro'
+                display_final.value = f'O produto 2 está mais barato'
+            update_plot(resultado1, resultado2)
 
         display_final.update()  # Atualiza o texto de display_final
 
@@ -163,86 +220,12 @@ def main(page: ft.Page):
             ft.Row([row_withbg], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([btn_reset], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([plot], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.END),
         )
 
-
-
     auto_update()
-
-#--------------------------------------------------------------------------------------
-
-# Inicializando o leitor ZXing
-reader = zxing.BarCodeReader()
-
-# Função para buscar informações do produto alimentar
-def buscar_info_produto_alimenticio(barcode):
-    url = f"https://world.openfoodfacts.org/api/v2/product/{barcode}.json"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.json()
-
-        if data.get('product'):
-            produto = data['product']
-            print("Informações do Produto Alimentício:")
-            print(f"Nome: {produto.get('product_name', 'Desconhecido')}")
-            print(f"Marca: {produto.get('brands', 'Desconhecido')}")
-            print(f"Ingredientes: {produto.get('ingredients_text', 'Desconhecido')}")
-            print(f"Valores nutricionais: {produto.get('nutriments', 'Desconhecido')}")
-        else:
-            print("Produto não encontrado.")
-    else:
-        print("Erro ao buscar informações.")
-
-# Função para capturar frames em tempo real e processar com ZXing
-def capture_and_decode():
-    # Inicializa a captura de vídeo (webcam)
-    cap = cv2.VideoCapture(0)
-
-    def show_video():
-        while True:
-            # Lê o frame atual da webcam
-            ret, frame = cap.read()
-
-            if not ret:
-                print("Erro ao capturar a imagem.")
-                break
-
-            # Mostra o frame em uma janela
-            cv2.imshow("Video", frame)
-
-            # Tenta salvar a imagem temporariamente para processar com ZXing
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as temp_file:
-                cv2.imwrite(temp_file.name, frame)
-
-                # Tenta detectar e decodificar o código de barras no frame
-                try:
-                    barcode = reader.decode(temp_file.name)
-                    if barcode:
-                        print(f"Tipo: {barcode.format}")
-                        print(f"Dados: {barcode.raw}")
-
-                        # Chama a função para buscar informações do produto
-                        buscar_info_produto_alimenticio(barcode.raw)
-
-                        # Desenha um retângulo em volta do código de barras
-                        for rect in barcode.rect:
-                            cv2.rectangle(frame, (rect[0], rect[1]), (rect[2], rect[3]), (0, 255, 0), 2)
-                except Exception as e:
-                    print(f"Erro ao processar o código de barras: {e}")
-
-            # Espera por tecla para continuar ou sair
-            key = cv2.waitKey(1)
-            if key == ord('q'):  # Pressione 'q' para sair
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
-
-    video_thread = threading.Thread(target=show_video)
-    video_thread.start()
-
 # Inicializa o aplicativo
 ft.app(target=main)
