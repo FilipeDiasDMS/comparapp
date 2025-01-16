@@ -193,4 +193,4 @@ def main(page: ft.Page):
 
 
     auto_update()
-ft.app(target=main)
+ft.app(target=main, production=True)
