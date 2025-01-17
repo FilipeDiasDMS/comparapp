@@ -21,9 +21,13 @@ def create_plot(result_1_value, result_2_value):
         spine.set_visible(False)
 
     # Salvando o gráfico diretamente em um arquivo temporário
+    project_dir = os.path.dirname(os.path.abspath(__file__))
+    tempfile.tempdir = project_dir
     temp_dir = tempfile.gettempdir()
     img_path = os.path.join(temp_dir, 'plot_{}.png'.format(os.urandom(6).hex()))
     plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
+
+    print(tempfile.gettempdir())
 
     plt.close(fig)
     return img_path
@@ -80,6 +84,7 @@ def main(page: ft.Page):
         compara()
 
     def handle_input_change_ps_tag2(e):
+        compara()
 
         page.update()
 
