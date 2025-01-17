@@ -19,7 +19,7 @@ def create_plot(result_1_value, result_2_value):
         spine.set_visible(False)
 
     # Salvando o gráfico diretamente em um arquivo temporário
-    img_path = "/tmp/plot.png"
+    img_path = "plot.png"
     plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
 
     return img_path
