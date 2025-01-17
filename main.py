@@ -6,6 +6,11 @@ import shutil
 
 plt.switch_backend('Agg')
 
+project_dir = os.path.dirname(os.path.abspath(__file__))
+temp_images_dir = os.path.join(project_dir, 'temp_images')
+os.makedirs(temp_images_dir, exist_ok=True)
+tempfile.tempdir = temp_images_dir
+
 def create_plot(result_1_value, result_2_value):
     # Criando o gráfico com os valores de result_1 e result_2
     fig, ax = plt.subplots()
@@ -21,10 +26,10 @@ def create_plot(result_1_value, result_2_value):
         spine.set_visible(False)
 
     # Salvando o gráfico diretamente em um arquivo temporário
-    project_dir = os.path.dirname(os.path.abspath(__file__))
-    tempfile.tempdir = project_dir
+    #project_dir = os.path.dirname(os.path.abspath(__file__))
+    #temp_images_dir = os.path.join(project_dir, "temp_images")
     temp_dir = tempfile.gettempdir()
-    img_path = os.path.join(temp_dir, 'plot_{}.png'.format(os.urandom(6).hex()))
+    img_path = os.path.join(temp_images_dir, 'plot_{}.png'.format(os.urandom(6).hex()))
     plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
 
     print(tempfile.gettempdir())
@@ -95,7 +100,7 @@ def main(page: ft.Page):
         margin=ft.Margin (0, 0, 0, 0)
     )
 
-    def update_plot(result_1_value, result_2_value):
+    def update_plot(result_1_value, result_2_value, flet_img):
         img_path = create_plot(result_1_value, result_2_value)
 
         # Atualizando o caminho da imagem no Flet
@@ -208,7 +213,7 @@ def main(page: ft.Page):
                 display_final.value = f'Ambo custam o mesmo'
             else:
                 display_final.value = f'O produto 2 está mais barato'
-            update_plot(resultado1, resultado2)
+            update_plot(resultado1, resultado2, flet_img)
 
         display_final.update()  # Atualiza o texto de display_final
 
