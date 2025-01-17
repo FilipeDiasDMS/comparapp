@@ -1,6 +1,8 @@
 import flet as ft
 import tempfile
 import matplotlib.pyplot as plt
+import os
+import shutil
 
 plt.switch_backend('Agg')
 
@@ -19,9 +21,11 @@ def create_plot(result_1_value, result_2_value):
         spine.set_visible(False)
 
     # Salvando o gráfico diretamente em um arquivo temporário
-    img_path = "plot.png"
+    temp_dir = tempfile.gettempdir()
+    img_path = os.path.join(temp_dir, 'plot_{}.png'.format(os.urandom(6).hex()))
     plt.savefig(img_path, format='png')  # Salvando diretamente no caminho
 
+    plt.close(fig)
     return img_path
 
 def main(page: ft.Page):
@@ -34,6 +38,7 @@ def main(page: ft.Page):
     page.window_max_height = 700
 
     def reset_all_data(e):
+
         pr1.value = ''
         ps1.value = ''
         pr2.value = ''
@@ -75,7 +80,6 @@ def main(page: ft.Page):
         compara()
 
     def handle_input_change_ps_tag2(e):
-        compara()
 
         page.update()
 
@@ -129,6 +133,8 @@ def main(page: ft.Page):
     desconto = ft.Text(value='Diferença %', size=12, width=160, text_align=ft.TextAlign.CENTER)
 
     btn_reset = ft.ElevatedButton(icon=ft.icons.RESTART_ALT, text="Reiniciar",bgcolor='#bc8d27',color='white', on_click=reset_all_data)
+
+    btn_calcular = ft.ElevatedButton(icon=ft.icons.RESTART_ALT, text="Calcular",bgcolor='#bc8d27',color='white', on_click=lambda _: compara())
 
     desconto_container = ft.Container(content=desconto,
         width=200,
@@ -220,8 +226,8 @@ def main(page: ft.Page):
             ft.Row([pr_tag2, pr2, ps_tag2, ps2],alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([row_withbg], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([divider],alignment=ft.MainAxisAlignment.CENTER),
+            ft.Row([btn_calcular, btn_reset], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([display_final], alignment=ft.MainAxisAlignment.CENTER),
-            ft.Row([btn_reset], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([plot], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([desconto_container], alignment=ft.MainAxisAlignment.CENTER),
             ft.Row([btn_qrcode], alignment=ft.MainAxisAlignment.END),
